@@ -1,0 +1,142 @@
+
+
+/* 1. Reset and Body */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Baloo 2', cursive;
+  background: linear-gradient(to bottom right, #ffeb3b, #00bcd4, #ffffff);
+  color: #333;
+  line-height: 1.6;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+/* 2. Headings */
+h1, h2 {
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+  font-weight: 700;
+  text-shadow: 2px 2px #ff6600;
+}
+
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  color: #ff4081;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #ff5722;
+}
+
+/* Tagline under H1 */
+.tagline {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #00897b;
+  font-weight: bold;
+}
+
+/* 3. Links */
+a {
+  color: #ff4081;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #00bcd4;
+  text-decoration: underline;
+}
+
+/* 4. Lists */
+.centered-list {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.centered-list li {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+/* Emphasized Text */
+.emphasizedText {
+  font-weight: bold;
+  color: #008080;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* 5. Images */
+img {
+  display: block;
+  margin: 2rem auto;
+  max-width: 90%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 5px solid #ff9800;
+}
+
+/* 6. Iframe (YouTube video) */
+iframe {
+  display: block;
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 560px;
+  height: 315px;
+  border: 4px solid #ff4081;
+  border-radius: 10px;
+}
+
+/* 7. "Back to Top" link */
+.top-link {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #ff4081;
+  color: #fff;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  animation: bounce 2s infinite;
+}
+
+.top-link:hover {
+  background-color: #00bcd4;
+}
+
+/* Bounce Animation for fun */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0); 
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 8. Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #ffe082;
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: #333;
+  border-top: 3px solid #ff9800;
+}

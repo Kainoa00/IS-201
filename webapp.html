@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Battleship Game</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom right, #87ceeb, #ffffff);
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #003366;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 50px);
+      grid-gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 50px;
+      height: 50px;
+      background-color: #b3d9ff;
+      border: 2px solid #003366;
+      cursor: pointer;
+    }
+    .cell.hit {
+      background-color: red;
+    }
+    .cell.miss {
+      background-color: gray;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #006600;
+      font-weight: bold;
+    }
+    #restartBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #restartBtn:hover {
+      background-color: #0055aa;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Battleship!</h1>
+
+<h2>Your Board</h2>
+<div id="playerBoard" class="board"></div>
+
+<h2>Computer's Board</h2>
+<div id="computerBoard" class="board"></div>
+
+<div id="status"></div>
+<button id="restartBtn" onclick="startGame()">Restart Game</button>
+
+<script>
+  const boardSize = 5;
+  let playerShips = [];
+  let computerShips = [];
+  let playerHits = 0;
+  let computerHits = 0;
+
+  function startGame() {
+    // Reset everything
+    document.getElementById('playerBoard').innerHTML = '';
+    document.getElementById('computerBoard').innerHTML = '';
+    document.getElementById('status').innerText = '';
+    playerShips = generateShips();
+    computerShips = generateShips();
+    playerHits = 0;
+    computerHits = 0;
+    createBoard('playerBoard', false);
+    createBoard('computerBoard', true);
+  }
+
+  function generateShips() {
+    let ships = [];
+    while (ships.length < 3) { // 3 ships each
+      let position = Math.floor(Math.random() * boardSize * boardSize);
+      if (!ships.includes(position)) {
+        ships.push(position);
+      }
+    }
+    return ships;
+  }
+
+  function createBoard(boardId, isComputer) {
+    for (let i = 0; i < boardSize * boardSize; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.index = i;
+      if (isComputer) {
+        cell.addEventListener('click', playerAttack);
+      } else {
+        if (playerShips.includes(i)) {
+          cell.style.backgroundColor = "#66ff66"; // Mark player's ships
+        }
+      }
+      document.getElementById(boardId).appendChild(cell);
+    }
+  }
+
+  function playerAttack(e) {
+    const idx = parseInt(e.target.dataset.index);
+    if (e.target.classList.contains('hit') || e.target.classList.contains('miss')) {
+      return; // already clicked
+    }
+    if (computerShips.includes(idx)) {
+      e.target.classList.add('hit');
+      playerHits++;
+      updateStatus("Hit! You hit a computer's ship!");
+    } else {
+      e.target.classList.add('miss');
+      updateStatus("Miss! You missed.");
+    }
+    checkWin();
+
+    setTimeout(computerAttack, 500); // computer attacks after player
+  }
+
+  function computerAttack() {
+    let availableCells = document.querySelectorAll('#playerBoard .cell:not(.hit):not(.miss)');
+    if (availableCells.length === 0) return;
+    const randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
+    const idx = parseInt(randomCell.dataset.index);
+
+    if (playerShips.includes(idx)) {
+      randomCell.classList.add('hit');
+      computerHits++;
+      updateStatus("The computer hit YOUR ship!");
+    } else {
+      randomCell.classList.add('miss');
+      updateStatus("The computer missed.");
+    }
+    checkWin();
+  }
+
+  function updateStatus(message) {
+    document.getElementById('status').innerText = message;
+  }
+
+  function checkWin() {
+    if (playerHits >= 3) {
+      updateStatus("🎉 You won! All enemy ships destroyed!");
+      disableBoard();
+    } else if (computerHits >= 3) {
+      updateStatus("💥 You lost! The computer sank your ships!");
+      disableBoard();
+    }
+  }
+
+  function disableBoard() {
+    const cells = document.querySelectorAll('#computerBoard .cell');
+    cells.forEach(cell => {
+      cell.removeEventListener('click', playerAttack);
+    });
+  }
+
+  // Start the game when the page loads
+  startGame();
+</script>
+
+</body>
+</html>
